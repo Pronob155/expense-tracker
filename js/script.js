@@ -5,6 +5,9 @@ const typeInput = document.querySelector("#type");
 const categoryInput = document.querySelector("#category");
 const dateInput = document.querySelector("#date");
 const transactionList = document.querySelector("#transaction-list");
+const balanceElement = document.querySelector(".balance-card p");
+const incomeElement = document.querySelector(".income-card p");
+const expenseElement = document.querySelector(".expense-card p");
 
 let transactions = [];
 
@@ -27,8 +30,8 @@ transactionForm.addEventListener("submit", function (event) {
 
     transactions.push(transaction);
     displayTransactions();
+    calculateTotals();
     transactionForm.reset();
-    console.log(transactions);
 });
 
 function displayTransactions() {
@@ -67,4 +70,25 @@ function displayTransactions() {
 
         transactionList.appendChild(listItem);
     });
+}
+function calculateTotals() {
+    let totalIncome = 0;
+    let totalExpense = 0;
+
+    transactions.forEach(function (transaction) {
+        if (transaction.type === "income") {
+            totalIncome += transaction.amount;
+        }
+
+        if (transaction.type === "expense") {
+            totalExpense += transaction.amount;
+        }
+    });
+
+    incomeElement.textContent = `BDT ${totalIncome.toFixed(2)}`;
+    expenseElement.textContent = `BDT ${totalExpense.toFixed(2)}`;
+
+    const balance = totalIncome - totalExpense;
+
+    balanceElement.textContent = `BDT ${balance.toFixed(2)}`;
 }
