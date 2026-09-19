@@ -21,6 +21,7 @@ transactionForm.addEventListener("submit", function (event) {
     const date = dateInput.value;
 
     const transaction = {
+        id: Date.now(),
         description: description,
         amount: Number(amount),
         type: type,
@@ -62,12 +63,36 @@ function displayTransactions() {
         const dateElement = document.createElement("span");
         dateElement.textContent = transaction.date;
 
+        const deleteButton = document.createElement("button");
+
+        deleteButton.textContent = "Delete";
+        deleteButton.type = "button";
+        deleteButton.classList.add("delete-btn");
+
+        const editButton = document.createElement("button");
+
+        editButton.textContent = "Edit";
+        editButton.type = "button";
+        editButton.classList.add("edit-btn");
+
+        deleteButton.addEventListener("click", function () {
+            const transactionIndex = transactions.findIndex(function (item) {
+                return item.id === transaction.id;
+            });
+
+            transactions.splice(transactionIndex, 1);
+
+            displayTransactions();
+            calculateTotals();
+        });
+
         listItem.appendChild(descriptionElement);
         listItem.appendChild(amountElement);
         listItem.appendChild(typeElement);
         listItem.appendChild(categoryElement);
         listItem.appendChild(dateElement);
-
+        listItem.appendChild(deleteButton);
+        listItem.appendChild(editButton);
         transactionList.appendChild(listItem);
     });
 }
