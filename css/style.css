@@ -182,3 +182,18 @@ body {
 #transaction-list li.expense {
     border-left: 4px solid #e58b8b;
 }
+.edit-btn {
+    background-color: #7c75d8;
+}
+
+.edit-btn:hover {
+    background-color: #6861c0;
+}
+
+.delete-btn {
+    background-color: #d97878;
+}
+
+.delete-btn:hover {
+    background-color: #c56262;
+}
