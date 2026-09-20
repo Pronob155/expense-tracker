@@ -10,6 +10,7 @@ const incomeElement = document.querySelector(".income-card p");
 const expenseElement = document.querySelector(".expense-card p");
 
 let transactions = [];
+let editingTransactionId = null;
 
 transactionForm.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -29,7 +30,18 @@ transactionForm.addEventListener("submit", function (event) {
         date: date
     };
 
-    transactions.push(transaction);
+    if (editingTransactionId === null) {
+        transactions.push(transaction);
+    } else {
+        const transactionIndex = transactions.findIndex(function (item) {
+            return item.id === editingTransactionId;
+        });
+
+        transactions[transactionIndex] = transaction;
+
+        editingTransactionId = null;
+    }
+
     displayTransactions();
     calculateTotals();
     transactionForm.reset();
@@ -74,6 +86,16 @@ function displayTransactions() {
         editButton.textContent = "Edit";
         editButton.type = "button";
         editButton.classList.add("edit-btn");
+
+        editButton.addEventListener("click", function () {
+            editingTransactionId = transaction.id;
+
+            descriptionInput.value = transaction.description;
+            amountInput.value = transaction.amount;
+            typeInput.value = transaction.type;
+            categoryInput.value = transaction.category;
+            dateInput.value = transaction.date;
+        });
 
         deleteButton.addEventListener("click", function () {
             const transactionIndex = transactions.findIndex(function (item) {
