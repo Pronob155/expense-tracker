@@ -44,6 +44,7 @@ transactionForm.addEventListener("submit", function (event) {
 
     displayTransactions();
     calculateTotals();
+    saveTransactions();
     transactionForm.reset();
 });
 
@@ -106,6 +107,7 @@ function displayTransactions() {
 
             displayTransactions();
             calculateTotals();
+            saveTransactions();
         });
 
         listItem.appendChild(descriptionElement);
@@ -138,4 +140,7 @@ function calculateTotals() {
     const balance = totalIncome - totalExpense;
 
     balanceElement.textContent = `BDT ${balance.toFixed(2)}`;
+}
+function saveTransactions() {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
 }
